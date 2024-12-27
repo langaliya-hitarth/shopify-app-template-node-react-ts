@@ -7,12 +7,12 @@
     "build": "tsc",
     "dev": "cross-env NODE_ENV=development nodemon",
     "serve": "cross-env NODE_ENV=production node dist/index.js",
+    "lint": "npx eslint . --fix",
     "graphql-codegen": "graphql-codegen",
     "prisma:generate": "npx prisma generate",
     "prisma:migrate": "npx prisma migrate dev",
     "prisma:studio": "npx prisma studio",
-    "prisma:deploy": "npx prisma migrate deploy",
-    "lint": "npx eslint . --fix"
+    "prisma:deploy": "npx prisma migrate deploy"
   },
   "type": "module",
   "engines": {
