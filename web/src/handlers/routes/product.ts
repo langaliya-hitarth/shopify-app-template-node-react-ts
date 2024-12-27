@@ -1,4 +1,4 @@
-import { GraphqlQueryError, Session } from "@shopify/shopify-api";
+import { Session } from "@shopify/shopify-api";
 import shopify from "../../core/config/shopify.js";
 import { Request, Response } from "express";
 import { productCreate, productsCount } from "../../core/graphql/products.js";
@@ -70,8 +70,6 @@ const NOUNS: string[] = [
   "fire",
   "flower",
 ];
-
-const prod = "test";
 
 const DEFAULT_PRODUCTS_COUNT: number = 5;
 
