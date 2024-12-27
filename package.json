@@ -9,7 +9,8 @@
     "dev": "shopify app dev",
     "info": "shopify app info",
     "generate": "shopify app generate",
-    "deploy": "shopify app deploy"
+    "deploy": "shopify app deploy",
+    "dev:clean": "find . -name \"*.lock\" -type f -delete && find . -name \"node_modules\" -type d -exec rm -rf {} +"
   },
   "dependencies": {
     "@shopify/app": "^3.58.2",

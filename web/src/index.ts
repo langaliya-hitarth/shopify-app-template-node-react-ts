@@ -34,7 +34,7 @@ app.post("/api/products", ProductRouteHandler.createProducts);
 app.use(shopify.cspHeaders());
 app.use(serveStatic(STATIC_PATH, { index: false }));
 
-app.use("/*", shopify.ensureInstalledOnShop(), async (_req, res, _next) => {
+app.use("/*", shopify.ensureInstalledOnShop(), async (_req, res) => {
   res
     .status(200)
     .set("Content-Type", "text/html")

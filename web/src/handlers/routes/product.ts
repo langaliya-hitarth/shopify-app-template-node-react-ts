@@ -71,6 +71,8 @@ const NOUNS: string[] = [
   "flower",
 ];
 
+const prod = "test";
+
 const DEFAULT_PRODUCTS_COUNT: number = 5;
 
 const ProductRouteHandler = {

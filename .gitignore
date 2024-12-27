@@ -30,6 +30,7 @@ build/
 # extensions build output
 extensions/*/dist
 extensions/*/build
+**/generated/
 
 # Node library SQLite database
 web/database.sqlite
