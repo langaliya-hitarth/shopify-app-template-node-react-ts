@@ -7,15 +7,14 @@
     "shopify": "shopify",
     "build": "shopify app build",
     "dev": "shopify app dev",
+    "dev:clean": "find . -name \"*.lock\" -type f -delete && find . -name \"node_modules\" -type d -exec rm -rf {} +",
     "info": "shopify app info",
     "generate": "shopify app generate",
-    "deploy": "shopify app deploy",
-    "dev:clean": "find . -name \"*.lock\" -type f -delete && find . -name \"node_modules\" -type d -exec rm -rf {} +"
+    "deploy": "shopify app deploy"
   },
   "dependencies": {
     "@shopify/app": "^3.58.2",
-    "@shopify/cli": "^3.72.2",
-    "dot-env": "^0.0.1"
+    "@shopify/cli": "^3.72.2"
   },
   "author": {
     "name": "Hitarth Langaliya",

@@ -5,9 +5,10 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "tsc",
-    "dev": "cross-env NODE_ENV=development nodemon",
-    "serve": "cross-env NODE_ENV=production node dist/index.js",
+    "dev": "nodemon",
+    "serve": "node dist/index.js",
     "lint": "npx eslint . --fix",
+    "prettify": "npx prettier . --write",
     "graphql-codegen": "graphql-codegen",
     "prisma:generate": "npx prisma generate",
     "prisma:migrate": "npx prisma migrate dev",
@@ -24,8 +25,11 @@
     "@shopify/shopify-app-session-storage-prisma": "^5.2.0",
     "bull": "^4.16.5",
     "compression": "^1.7.4",
-    "cross-env": "^7.0.3",
-    "serve-static": "^1.14.1"
+    "node-emoji": "^2.2.0",
+    "rollbar": "^2.26.4",
+    "serve-static": "^1.14.1",
+    "winston": "^3.17.0",
+    "winston-transport": "^4.9.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
@@ -39,11 +43,10 @@
     "eslint": "^9.17.0",
     "globals": "^15.14.0",
     "nodemon": "^2.0.15",
-    "prettier": "^2.6.2",
+    "prettier": "3.4.2",
     "pretty-quick": "^3.1.3",
     "prisma": "^5.22.0",
-    "ts-node": "^10.9.2",
-    "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.19.2",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.18.2"
   }

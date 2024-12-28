@@ -1,12 +1,12 @@
-import globals from "globals";
-import eslint from "@eslint/js";
-import tseslint from "typescript-eslint";
-import * as typescriptParser from "@typescript-eslint/parser";
+import globals from 'globals';
+import eslint from '@eslint/js';
+import tseslint from 'typescript-eslint';
+import * as typescriptParser from '@typescript-eslint/parser';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
   {
-    files: ["**/*.{js,mjs,cjs,ts}"],
+    files: ['**/*.{js,mjs,cjs,ts}'],
   },
   {
     languageOptions: {
@@ -18,16 +18,10 @@ export default [
   ...tseslint.configs.strict,
   {
     rules: {
-      "prefer-const": ["error", { ignoreReadBeforeAssign: true }],
+      'prefer-const': ['error', { ignoreReadBeforeAssign: true }],
     },
   },
   {
-    ignores: [
-      "node_modules/",
-      "dist/",
-      "prisma/",
-      "frontend/",
-      "**/generated/",
-    ],
+    ignores: ['node_modules/', 'dist/', 'prisma/', 'frontend/', '**/generated/'],
   },
 ];

@@ -1,11 +1,15 @@
-import { join } from "path";
-import { readFileSync } from "fs";
-import express from "express";
-import serveStatic from "serve-static";
-import PrivacyWebhookHandlers from "./handlers/webhooks/privacy.js";
-import ProductRouteHandler from "./handlers/routes/product.js";
-import shopify from "./core/config/shopify.js";
-import { STATIC_PATH, PORT } from "./core/config/app.js";
+import { join } from 'path';
+import { readFileSync } from 'fs';
+import express from 'express';
+import serveStatic from 'serve-static';
+import shopify from './core/config/shopify.config.js';
+import appConfig from './core/config/app.config.js';
+import webhooksRouter from './routes/webhook.route.js';
+import productRouter from './routes/product.route.js';
+import logger from './core/logger/logger.js';
+
+// If you are adding routes outside of the /api path, remember to
+// also add a proxy rule for them in web/frontend/vite.config.js
 
 const app = express();
 
@@ -14,35 +18,31 @@ app.get(shopify.config.auth.path, shopify.auth.begin());
 app.get(
   shopify.config.auth.callbackPath,
   shopify.auth.callback(),
-  shopify.redirectToShopifyOrAppRoot()
-);
-app.post(
-  shopify.config.webhooks.path,
-  shopify.processWebhooks({ webhookHandlers: PrivacyWebhookHandlers })
+  shopify.redirectToShopifyOrAppRoot(),
 );
 
-// If you are adding routes outside of the /api path, remember to
-// also add a proxy rule for them in web/frontend/vite.config.js
+app.use(webhooksRouter);
 
-app.use("/api/*", shopify.validateAuthenticatedSession());
+app.use('/api/*', shopify.validateAuthenticatedSession());
 
 app.use(express.json());
 
-app.get("/api/products/count", ProductRouteHandler.getProductCount);
-app.post("/api/products", ProductRouteHandler.createProducts);
+app.use(productRouter);
 
 app.use(shopify.cspHeaders());
-app.use(serveStatic(STATIC_PATH, { index: false }));
+app.use(serveStatic(appConfig.STATIC_PATH, { index: false }));
 
-app.use("/*", shopify.ensureInstalledOnShop(), async (_req, res) => {
+app.use('/*', shopify.ensureInstalledOnShop(), async (_req, res) => {
   res
     .status(200)
-    .set("Content-Type", "text/html")
+    .set('Content-Type', 'text/html')
     .send(
-      readFileSync(join(STATIC_PATH, "index.html"))
+      readFileSync(join(appConfig.STATIC_PATH, 'index.html'))
         .toString()
-        .replace("%VITE_SHOPIFY_API_KEY%", process.env.SHOPIFY_API_KEY || "")
+        .replace('%VITE_SHOPIFY_API_KEY%', process.env.SHOPIFY_API_KEY || ''),
     );
 });
 
-app.listen(PORT);
+app.listen(appConfig.PORT, () => {
+  logger.info(`Server is running on port: ${appConfig.PORT}`);
+});

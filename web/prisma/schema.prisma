@@ -22,7 +22,6 @@ model Session {
   expires       DateTime?
   accessToken   String
   userId        BigInt?
-  // New fields
   firstName     String?
   lastName      String?
   email         String?
@@ -32,4 +31,21 @@ model Session {
   emailVerified Boolean?  @default(false)
 
   @@map("session")
+}
+
+model Log {
+  id        BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  level     LogLevel @default(info)
+  message   String   @db.LongText
+  metadata  String   @db.LongText
+  timestamp DateTime @default(now())
+
+  @@map("log")
+}
+
+enum LogLevel {
+  info
+  warn
+  debug
+  error
 }
