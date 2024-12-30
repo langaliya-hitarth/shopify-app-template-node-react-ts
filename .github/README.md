@@ -75,15 +75,17 @@ Open the URL generated in your console. Once you grant permission to the app, yo
 
 ### Application Storage
 
-This template uses [SQLite](https://www.sqlite.org/index.html) to store session data. The database is a file called `database.sqlite` which is automatically created in the root. This use of SQLite works in production if your app runs as a single instance.
+This template uses [MySQL](https://www.mysql.com/) to store session data, with [Prisma](https://www.prisma.io/) as the ORM to manage database interactions efficiently.
 
-The database that works best for you depends on the data your app needs and how it is queried. You can run your database of choice on a server yourself or host it with a SaaS company. Here’s a short list of databases providers that provide a free tier to get started:                                                                                                 |
+The choice of database depends on your app's data requirements and query patterns. You can either host your database on your own server or use a SaaS provider for managed hosting.
 
-To use any other form of storage, you need to change your session storage configuration. To help, here’s a list of [SessionStorage adapter packages](https://github.com/Shopify/shopify-api-js/blob/main/packages/shopify-api/docs/guides/session-storage.md).
+If you'd prefer to use a different form of storage for session data, you’ll need to update the session storage configuration accordingly. For guidance, refer to the list of available [SessionStorage adapter packages](https://github.com/Shopify/shopify-api-js/blob/main/packages/shopify-api/docs/guides/session-storage.md).
 
 ### Build
 
-The requires the configurations to set properly, which you can find on the page for your app in your partners dashboard. Paste your app’s configurations in the .env file for the app to build properly.
+Proper configuration is required to build and run the app. You can find the necessary configurations on your app's page in the Shopify Partners Dashboard.
+
+Copy and paste your app's configurations into the .env file to ensure the app functions correctly.
 
 ## Developer resources
 
