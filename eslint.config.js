@@ -67,6 +67,8 @@ export default [
       '**/types/',
       '**/*.d.ts',
       '**/dev_embed.js',
+      './github',
+      './husky',
     ],
   },
 ];
