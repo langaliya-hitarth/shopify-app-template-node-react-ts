@@ -41,11 +41,6 @@
     "name": "Hitarth Langaliya",
     "email": "dev.hlangaliya@gmail.com"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run fix"
-    }
-  },
   "private": true,
   "workspaces": [
     "extensions/*",
