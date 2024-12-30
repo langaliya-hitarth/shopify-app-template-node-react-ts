@@ -1,6 +1,6 @@
 # Shopify App Template for Node + React (Typescript)
 
-This is a template for building a [Shopify app](https://shopify.dev/docs/apps/getting-started) using Node and React in Typescript. It contains the basics for building a Shopify app.
+This is a template is heavily inspired from [shopify-app-template-node](https://github.com/Shopify/shopify-app-template-node) and is used for building a [Shopify app](https://shopify.dev/docs/apps/getting-started) using Node and React in Typescript. It contains the basics for building a Shopify app.
 
 ## Benefits
 
@@ -17,13 +17,19 @@ The Node app template comes with the following out-of-the-box functionality:
   - App Proxy with HMAC verification middleware
 - Typescript Configuration: Recommended rules for typescript are implied by default 
 - Linting and Formatting: Leveraging ESLint and Prettier to enforce linting rules and formatting code
+- Logging: This template leverages the popular Winston library to provide a robust logging solution. It supports logging to multiple tools and services, including:
+  - Prisma
+  - Rollbar
+  - Console
 
 ## Tech Stack
 
 This template combines a number of third party open-source tools:
 
 - [Express](https://expressjs.com/) builds the backend.
+- [Prisma](https://www.prisma.io/) to talk with the database
 - [Vite](https://vitejs.dev/) builds the [React](https://reactjs.org/) frontend.
+- [Typescript](https://www.typescriptlang.org/) to enforce types.
 - [React Router](https://reactrouter.com/) is used for routing. We wrap this with file-based routing.
 - [React Query](https://react-query.tanstack.com/) queries the Admin API.
 - [`i18next`](https://www.i18next.com/) and related libraries are used to internationalize the frontend.
@@ -32,6 +38,8 @@ This template combines a number of third party open-source tools:
   - [`@formatjs/intl-localematcher`](https://formatjs.io/docs/polyfills/intl-localematcher/) is used to match the user locale with supported app locales.
   - [`@formatjs/intl-locale`](https://formatjs.io/docs/polyfills/intl-locale) is used as a polyfill for [`Intl.Locale`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale) if necessary.
   - [`@formatjs/intl-pluralrules`](https://formatjs.io/docs/polyfills/intl-pluralrules) is used as a polyfill for [`Intl.PluralRules`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/PluralRules) if necessary.
+- [Winston](https://github.com/winstonjs/winston) for logging to different services
+- [Rollbar](https://rollbar.com/) for error logging and monitoring in real-time
 
 The following Shopify tools complement these third-party tools to ease app development:
 
