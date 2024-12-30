@@ -2,14 +2,19 @@ import { join } from 'path';
 import { readFileSync } from 'fs';
 import express from 'express';
 import serveStatic from 'serve-static';
-import shopify from './core/config/shopify.config.js';
+import { shopify } from './core/config/shopify.config.js';
 import appConfig from './core/config/app.config.js';
 import webhooksRouter from './routes/webhook.route.js';
 import productRouter from './routes/product.route.js';
 import logger from './core/logger/logger.js';
+import { validateShopifyWebhookHmac } from './core/middleware/validateShopifyHmac.js';
+import ignoreRoutes from './core/middleware/ignoreRoutes.js';
+import rollbarConfig from './core/config/rollbar.config.js';
 
 // If you are adding routes outside of the /api path, remember to
 // also add a proxy rule for them in web/frontend/vite.config.js
+
+//TODO: Setup husky
 
 const app = express();
 
@@ -21,9 +26,11 @@ app.get(
   shopify.redirectToShopifyOrAppRoot(),
 );
 
-app.use(webhooksRouter);
+app.use('/webhooks', express.text({ type: '*/*' }), validateShopifyWebhookHmac, webhooksRouter);
 
-app.use('/api/*', shopify.validateAuthenticatedSession());
+// app.use('/proxy', validateShopifyProxyHmac);
+
+app.use('/api/*', ignoreRoutes(shopify.validateAuthenticatedSession()));
 
 app.use(express.json());
 
@@ -32,7 +39,7 @@ app.use(productRouter);
 app.use(shopify.cspHeaders());
 app.use(serveStatic(appConfig.STATIC_PATH, { index: false }));
 
-app.use('/*', shopify.ensureInstalledOnShop(), async (_req, res) => {
+app.use('/*', ignoreRoutes(shopify.ensureInstalledOnShop()), async (_req, res) => {
   res
     .status(200)
     .set('Content-Type', 'text/html')
@@ -44,5 +51,15 @@ app.use('/*', shopify.ensureInstalledOnShop(), async (_req, res) => {
 });
 
 app.listen(appConfig.PORT, () => {
-  logger.info(`Server is running on port: ${appConfig.PORT}`);
+  logger.debug(`Server is running on port: ${appConfig.PORT}`);
+});
+
+app.use(rollbarConfig.errorHandler());
+
+process.on('uncaughtException', error => {
+  if (error instanceof Error) logger.error(error.message, { stack: error.stack });
+});
+
+process.on('unhandledRejection', error => {
+  if (error instanceof Error) logger.error(error.message, { stack: error.stack });
 });

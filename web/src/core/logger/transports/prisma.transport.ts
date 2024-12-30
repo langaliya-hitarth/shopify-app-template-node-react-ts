@@ -1,8 +1,8 @@
 import type { LogEntry } from 'winston';
 import TransportStream from 'winston-transport';
 import type { TransportStreamOptions } from 'winston-transport';
-import { prisma } from '../../config/prisma.config.js';
 import { LogLevel } from '@prisma/client';
+import { createLog } from '../../../repositories/log.repository.js';
 
 class PrismaTransport extends TransportStream {
   constructor(options: TransportStreamOptions) {
@@ -15,18 +15,12 @@ class PrismaTransport extends TransportStream {
       this.emit('logged', info);
     });
 
-    try {
-      await prisma.log.create({
-        data: {
-          level: info.level as LogLevel,
-          message: info.message,
-          timestamp: new Date(info.timestamp || Date.now()),
-          metadata: info.metadata ? JSON.stringify(info.metadata) : '',
-        },
-      });
-    } catch (error) {
-      console.error('Error saving log to database:', error);
-    }
+    createLog({
+      level: info.level as LogLevel,
+      message: info.message,
+      timestamp: new Date(info.timestamp || Date.now()),
+      metadata: info.metadata ? JSON.stringify(info.metadata) : '',
+    });
 
     callback();
   }

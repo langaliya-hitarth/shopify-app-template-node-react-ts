@@ -1,5 +1,5 @@
 import { GraphqlClient, Session } from '@shopify/shopify-api';
-import shopify from '../core/config/shopify.config.js';
+import { shopify } from '../core/config/shopify.config.js';
 import { productCreate, productsCount } from '../core/graphql/products.js';
 
 const ADJECTIVES: string[] = [

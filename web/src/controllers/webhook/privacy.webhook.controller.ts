@@ -1,4 +1,4 @@
-import type { WebhookRequestParams } from '../../routes/routes.js';
+import type { WebhookRequestParams } from '../../core/types/routes.types.js';
 
 const customerDataRequest = async ({ body }: WebhookRequestParams) => {
   if (!body) throw new Error('Missing Payload');

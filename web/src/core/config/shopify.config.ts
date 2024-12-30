@@ -4,6 +4,7 @@ import type { ShopifyApp } from '@shopify/shopify-app-express';
 import { shopifyApp } from '@shopify/shopify-app-express';
 import { restResources } from '@shopify/shopify-api/rest/admin/2024-10';
 import { prismaSessionStorage } from './prisma.config.js';
+import type { ShopifyAppConfig } from '../types/shopify.types.js';
 
 // This is an example configuration that would do a one-time charge for $5 (only USD is currently supported)
 const billingConfig = (include = false): BillingConfig | undefined => {
@@ -18,7 +19,7 @@ const billingConfig = (include = false): BillingConfig | undefined => {
     : undefined;
 };
 
-const shopify: ShopifyApp = shopifyApp({
+const shopifyAppInstance: ShopifyApp = shopifyApp({
   api: {
     apiVersion: LATEST_API_VERSION,
     restResources,
@@ -34,9 +35,23 @@ const shopify: ShopifyApp = shopifyApp({
     callbackPath: '/api/auth/callback',
   },
   webhooks: {
-    path: '/api/webhooks',
+    path: '/webhooks',
+  },
+  proxy: {
+    path: '/proxy',
   },
   sessionStorage: prismaSessionStorage,
 });
 
-export default shopify;
+export const shopify: ShopifyAppConfig = {
+  ...shopifyAppInstance,
+  proxy: {
+    path: '/proxy',
+  },
+};
+
+const shopifyConfig = {
+  shopify,
+};
+
+export default shopifyConfig;

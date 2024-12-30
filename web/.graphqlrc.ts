@@ -12,7 +12,7 @@ export default {
       apiType: ApiType.Admin,
       apiVersion: LATEST_API_VERSION,
       documents: ['./src/core/graphql/**/*.{js,ts}'],
-      outputDir: './src/core/graphql/generated',
+      outputDir: './src/core/types',
     }),
   },
 };

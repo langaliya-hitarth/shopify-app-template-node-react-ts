@@ -48,4 +48,5 @@ enum LogLevel {
   warn
   debug
   error
+  fatal
 }

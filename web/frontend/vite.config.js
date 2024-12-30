@@ -1,16 +1,16 @@
-import { defineConfig } from "vite";
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import react from "@vitejs/plugin-react";
+import { defineConfig } from 'vite';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import react from '@vitejs/plugin-react';
 
 if (
-  process.env.npm_lifecycle_event === "build" &&
+  process.env.npm_lifecycle_event === 'build' &&
   !process.env.CI &&
   !process.env.SHOPIFY_API_KEY
 ) {
   throw new Error(
-    "\n\nThe frontend build will not work without an API key. Set the SHOPIFY_API_KEY environment variable when running the build command, for example:" +
-      "\n\nSHOPIFY_API_KEY=<your-api-key> npm run build\n"
+    '\n\nThe frontend build will not work without an API key. Set the SHOPIFY_API_KEY environment variable when running the build command, for example:' +
+      '\n\nSHOPIFY_API_KEY=<your-api-key> npm run build\n',
   );
 }
 
@@ -23,21 +23,19 @@ const proxyOptions = {
   ws: false,
 };
 
-const host = process.env.HOST
-  ? process.env.HOST.replace(/https?:\/\//, "")
-  : "localhost";
+const host = process.env.HOST ? process.env.HOST.replace(/https?:\/\//, '') : 'localhost';
 
 let hmrConfig;
-if (host === "localhost") {
+if (host === 'localhost') {
   hmrConfig = {
-    protocol: "ws",
-    host: "localhost",
+    protocol: 'ws',
+    host: 'localhost',
     port: 64999,
     clientPort: 64999,
   };
 } else {
   hmrConfig = {
-    protocol: "wss",
+    protocol: 'wss',
     host: host,
     port: process.env.FRONTEND_PORT,
     clientPort: 443,
@@ -51,12 +49,14 @@ export default defineConfig({
     preserveSymlinks: true,
   },
   server: {
-    host: "localhost",
+    host: 'localhost',
     port: process.env.FRONTEND_PORT,
     hmr: hmrConfig,
     proxy: {
-      "^/(\\?.*)?$": proxyOptions,
-      "^/api(/|(\\?.*)?$)": proxyOptions,
+      '^/(\\?.*)?$': proxyOptions,
+      '^/api(/|(\\?.*)?$)': proxyOptions,
+      '^/webhooks(/|(\\?.*)?$)': proxyOptions,
+      '^/proxy(/|(\\?.*)?$)': proxyOptions,
     },
   },
 });

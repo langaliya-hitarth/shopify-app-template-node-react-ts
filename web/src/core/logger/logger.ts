@@ -1,8 +1,7 @@
 import { createLogger, format, transports } from 'winston';
 import PrismaTransport from './transports/prisma.transport.js';
-import { emojify } from 'node-emoji';
-import { LogLevel } from '@prisma/client';
 import winstonConfig from '../config/winston.config.js';
+import { isInvalid } from '../utils/validation.utils.js';
 
 const logger = createLogger({
   level: winstonConfig.level.cli,
@@ -18,16 +17,13 @@ const logger = createLogger({
       format: format.combine(
         format.colorize({ all: true }),
         format.printf(info => {
-          const level = emojify(
-            winstonConfig.emojis[info.level || 'info'] || winstonConfig.emojis.info,
-          );
-          return `[${info.timestamp} / ${level}] ${info.message}`;
+          return `[${info.timestamp} / ${info.level}] ${info.message} ${!isInvalid(info.metadata) ? `\n${JSON.stringify(info.metadata)}` : ''}`;
         }),
       ),
     }),
 
     new PrismaTransport({
-      level: LogLevel.error,
+      level: winstonConfig.level.cli,
       format: format.combine(format.json()),
     }),
   ],
