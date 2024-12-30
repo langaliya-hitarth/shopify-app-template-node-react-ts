@@ -1,20 +1,40 @@
 {
   "name": "shopify-app-template-node-ts",
   "version": "1.0.0",
-  "main": "web/src/index.ts",
+  "main": "app/server/src/index.ts",
   "license": "UNLICENSED",
+  "type": "module",
   "scripts": {
     "shopify": "shopify",
-    "build": "shopify app build",
-    "dev": "shopify app dev",
-    "dev:clean": "find . -name \"*.lock\" -type f -delete && find . -name \"node_modules\" -type d -exec rm -rf {} +",
     "info": "shopify app info",
+    "build": "shopify app build",
     "generate": "shopify app generate",
-    "deploy": "shopify app deploy"
+    "dev": "shopify app dev",
+    "serve": "node dist/server/index.js",
+    "deploy": "shopify app deploy",
+    "clean": "find . -name '*.lock' -type f -delete && find . -name 'package-lock.json' -type f -delete && find . -name 'node_modules' -type d -exec rm -rf {} +",
+    "prisma:migrate": "npx prisma migrate dev --schema=./app/server/prisma/schema.prisma",
+    "prisma:deploy": "npx prisma migrate deploy --schema=./app/server/prisma/schema.prisma",
+    "lint": "npx eslint . --fix",
+    "prettier": "npx prettier . --check"
   },
   "dependencies": {
     "@shopify/app": "^3.58.2",
-    "@shopify/cli": "^3.72.2"
+    "@shopify/cli": "^3.72.2",
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@types/eslint__js": "^8.42.3",
+    "@typescript-eslint/eslint-plugin": "^8.18.2",
+    "@typescript-eslint/parser": "^8.18.2",
+    "eslint": "^9.17.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-import-resolver-typescript": "^3.7.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "prettier": "^3.4.2",
+    "typescript-eslint": "^8.18.2"
   },
   "author": {
     "name": "Hitarth Langaliya",
@@ -23,7 +43,6 @@
   "private": true,
   "workspaces": [
     "extensions/*",
-    "web",
-    "web/frontend"
+    "app/*"
   ]
 }

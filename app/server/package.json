@@ -1,0 +1,39 @@
+{
+  "name": "shopify-app-template-node",
+  "version": "1.0.0",
+  "private": true,
+  "license": "UNLICENSED",
+  "scripts": {
+    "build": "tsc",
+    "dev": "nodemon",
+    "graphql-codegen": "graphql-codegen"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=16.13.0"
+  },
+  "dependencies": {
+    "@prisma/client": "5.22.0",
+    "@shopify/shopify-app-express": "^5.0.9",
+    "@shopify/shopify-app-session-storage-prisma": "^5.2.0",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "rollbar": "^2.26.4",
+    "serve-static": "^1.14.1",
+    "winston": "^3.17.0",
+    "winston-transport": "^4.9.0"
+  },
+  "devDependencies": {
+    "@shopify/api-codegen-preset": "^1.1.3",
+    "@types/compression": "^1.7.5",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.2",
+    "@types/serve-static": "^1.15.7",
+    "globals": "^15.14.0",
+    "nodemon": "^2.0.15",
+    "prisma": "^5.22.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

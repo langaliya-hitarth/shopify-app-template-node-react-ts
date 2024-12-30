@@ -3,7 +3,7 @@
 client_id = "41d300d6a3a17cefb1ef8d1a7d1b8da1"
 name = "checkout-hitarth"
 handle = "checkout-hitarth"
-application_url = "https://karen-era-ak-ozone.trycloudflare.com"
+application_url = "https://dragon-nd-meditation-mattress.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,16 +17,16 @@ scopes = "read_products,write_products"
 
 [auth]
 redirect_urls = [
-  "https://karen-era-ak-ozone.trycloudflare.com/auth/callback",
-  "https://karen-era-ak-ozone.trycloudflare.com/auth/shopify/callback",
-  "https://karen-era-ak-ozone.trycloudflare.com/api/auth/callback"
+  "https://dragon-nd-meditation-mattress.trycloudflare.com/auth/callback",
+  "https://dragon-nd-meditation-mattress.trycloudflare.com/auth/shopify/callback",
+  "https://dragon-nd-meditation-mattress.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
 api_version = "2024-01"
 
 [app_proxy]
-url = "https://karen-era-ak-ozone.trycloudflare.com/proxy"
+url = "https://dragon-nd-meditation-mattress.trycloudflare.com/proxy"
 subpath = "proxy"
 prefix = "apps"
 
