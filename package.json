@@ -15,7 +15,8 @@
     "clean": "find . -name '*.lock' -type f -delete && find . -name 'package-lock.json' -type f -delete && find . -name 'node_modules' -type d -exec rm -rf {} +",
     "prisma:migrate": "npx prisma migrate dev --schema=./app/server/prisma/schema.prisma",
     "prisma:deploy": "npx prisma migrate deploy --schema=./app/server/prisma/schema.prisma",
-    "fix": "npx prettier . --write && npx eslint . --fix"
+    "fix": "npx prettier . --write && npx eslint . --fix",
+    "prepare": "husky"
   },
   "dependencies": {
     "@shopify/app": "^3.58.2",
@@ -32,12 +33,18 @@
     "eslint-import-resolver-typescript": "^3.7.0",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-prettier": "^5.2.1",
+    "husky": "^9.1.7",
     "prettier": "^3.4.2",
     "typescript-eslint": "^8.18.2"
   },
   "author": {
     "name": "Hitarth Langaliya",
     "email": "dev.hlangaliya@gmail.com"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run fix"
+    }
   },
   "private": true,
   "workspaces": [
