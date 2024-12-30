@@ -16,7 +16,7 @@ The Node app template comes with the following out-of-the-box functionality:
   - Webhooks with HMAC verification middleware
   - App Proxy with HMAC verification middleware
 - Typescript Configuration: Recommended rules for typescript are implied by default 
-- Linting and Formatting: Leveraging [ESLint](https://eslint.org/) and [Prettier](https://prettier.io/) to enforce linting rules and formatting code pre-commit using [Husky](https://typicode.github.io/husky/) and [Lint-Staged](https://github.com/lint-staged/lint-staged).
+- Linting and Formatting: Leveraging [ESLint](https://eslint.org/) and [Prettier](https://prettier.io/) to enforce linting rules and formatting code on pre-commit using [Husky](https://typicode.github.io/husky/) and [Lint-Staged](https://github.com/lint-staged/lint-staged).
 - Logging: This template leverages the popular Winston library to provide a robust logging solution. It supports logging to multiple tools and services, including:
   - Prisma
   - Rollbar
