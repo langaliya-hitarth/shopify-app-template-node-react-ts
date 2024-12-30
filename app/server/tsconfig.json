@@ -17,6 +17,8 @@
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": false,
     "allowSyntheticDefaultImports": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
 
     /* Transpiling Options */
     "outDir": "../../dist/server",
@@ -28,7 +30,8 @@
     "lib": ["ES2022"],
     "removeComments": true,
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "isolatedModules": true
   },
   "include": ["src/**/*.ts"]
 }
