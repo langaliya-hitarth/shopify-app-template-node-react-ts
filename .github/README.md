@@ -92,6 +92,7 @@ Copy and paste your app's configurations into the .env file to ensure the app fu
 - [Introduction to Shopify apps](https://shopify.dev/docs/apps/getting-started)
 - [App authentication](https://shopify.dev/docs/apps/auth)
 - [Shopify CLI](https://shopify.dev/docs/apps/tools/cli)
+- [Shopify CLI command reference](https://shopify.dev/apps/tools/cli/app)
 - [Shopify API Library documentation](https://github.com/Shopify/shopify-api-js#readme)
 - [Getting started with internationalizing your app](https://shopify.dev/docs/apps/best-practices/internationalization/getting-started)
   - [i18next](https://www.i18next.com/)
