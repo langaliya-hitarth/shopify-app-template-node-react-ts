@@ -18,6 +18,9 @@
     "fix": "npx prettier . --write && npx eslint . --fix",
     "prepare": "husky"
   },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": "npm run fix --"
+  },
   "dependencies": {
     "@shopify/app": "^3.58.2",
     "@shopify/cli": "^3.72.2",
@@ -34,6 +37,7 @@
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-prettier": "^5.2.1",
     "husky": "^9.1.7",
+    "lint-staged": "^15.3.0",
     "prettier": "^3.4.2",
     "typescript-eslint": "^8.18.2"
   },
