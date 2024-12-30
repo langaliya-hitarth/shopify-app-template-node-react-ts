@@ -1,9 +1,4 @@
-import {
-  QueryClient,
-  QueryClientProvider,
-  QueryCache,
-  MutationCache,
-} from "react-query";
+import { QueryClient, QueryClientProvider, QueryCache, MutationCache } from 'react-query';
 
 /**
  * Sets up the QueryClientProvider from react-query.

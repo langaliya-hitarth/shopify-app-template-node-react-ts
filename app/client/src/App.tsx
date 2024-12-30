@@ -16,7 +16,7 @@ export default function App() {
       <BrowserRouter>
         <QueryProvider>
           <NavMenu>
-            <a href="/" rel="home" />
+            <a href='/' rel='home' />
           </NavMenu>
           <Routes pages={pages} />
         </QueryProvider>

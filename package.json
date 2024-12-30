@@ -16,7 +16,7 @@
     "prisma:migrate": "npx prisma migrate dev --schema=./app/server/prisma/schema.prisma",
     "prisma:deploy": "npx prisma migrate deploy --schema=./app/server/prisma/schema.prisma",
     "lint": "npx eslint . --fix",
-    "prettier": "npx prettier . --check"
+    "prettier": "npx prettier . --write"
   },
   "dependencies": {
     "@shopify/app": "^3.58.2",

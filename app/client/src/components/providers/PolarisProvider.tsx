@@ -17,7 +17,7 @@ function AppBridgeLink({ url, children, external, ...rest }: AppBridgeLinkProps)
 
   if (external || IS_EXTERNAL_LINK_REGEX.test(url)) {
     return (
-      <a {...rest} href={url} target="_blank" rel="noopener noreferrer">
+      <a {...rest} href={url} target='_blank' rel='noopener noreferrer'>
         {children}
       </a>
     );

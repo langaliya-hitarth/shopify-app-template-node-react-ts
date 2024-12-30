@@ -46,25 +46,25 @@ export function ProductsCard() {
   };
 
   return (
-    <Card roundedAbove="sm">
-      <BlockStack gap="500">
-        <BlockStack gap="200">
-          <Text as="h2" variant={'headingMd'}>
+    <Card roundedAbove='sm'>
+      <BlockStack gap='500'>
+        <BlockStack gap='200'>
+          <Text as='h2' variant={'headingMd'}>
             {t('ProductsCard.title')}
           </Text>
-          <Text as="p" variant="bodyMd">
+          <Text as='p' variant='bodyMd'>
             {t('ProductsCard.description')}
           </Text>
         </BlockStack>
-        <BlockStack gap="200">
-          <Text as="h4" variant={'headingSm'}>
+        <BlockStack gap='200'>
+          <Text as='h4' variant={'headingSm'}>
             {t('ProductsCard.totalProductsHeading')}
           </Text>
-          <Text variant="bodyMd" as="p" fontWeight="semibold">
+          <Text variant='bodyMd' as='p' fontWeight='semibold'>
             {isLoadingCount ? '-' : data?.count}
           </Text>
         </BlockStack>
-        <InlineStack align="end">
+        <InlineStack align='end'>
           <ButtonGroup>
             <Button loading={isPopulating} onClick={handlePopulate}>
               {t('ProductsCard.populateProductsButton', {
