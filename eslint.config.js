@@ -65,6 +65,7 @@ export default [
       '**/prisma/',
       '**/assets/',
       '**/types/',
+      '**/*.d.ts',
       '**/dev_embed.js',
     ],
   },
