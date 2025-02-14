@@ -69,6 +69,8 @@ export default [
       '**/dev_embed.js',
       './github',
       './husky',
+      './prettierrc',
+      './prettierignore',
     ],
   },
 ];

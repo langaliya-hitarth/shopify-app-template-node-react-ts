@@ -16,6 +16,7 @@
     "prisma:migrate": "npx prisma migrate dev --schema=./app/server/prisma/schema.prisma",
     "prisma:deploy": "npx prisma migrate deploy --schema=./app/server/prisma/schema.prisma",
     "fix": "npx prettier . --write && npx eslint . --fix",
+    "lint": "npx prettier . --check && npx eslint .",
     "prepare": "husky"
   },
   "lint-staged": {

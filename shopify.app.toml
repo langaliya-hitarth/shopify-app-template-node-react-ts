@@ -1,34 +1,6 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
-
-client_id = "41d300d6a3a17cefb1ef8d1a7d1b8da1"
-name = "checkout-hitarth"
-handle = "checkout-hitarth"
-application_url = "https://dragon-nd-meditation-mattress.trycloudflare.com"
-embedded = true
+[webhooks]
+api_version = "2025-01"
 
 [build]
 automatically_update_urls_on_dev = true
-dev_store_url = "demo-hitarth-3.myshopify.com"
-include_config_on_deploy = true
-
-[access_scopes]
-# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-scopes = "read_products,write_products"
-
-[auth]
-redirect_urls = [
-  "https://dragon-nd-meditation-mattress.trycloudflare.com/auth/callback",
-  "https://dragon-nd-meditation-mattress.trycloudflare.com/auth/shopify/callback",
-  "https://dragon-nd-meditation-mattress.trycloudflare.com/api/auth/callback"
-]
-
-[webhooks]
-api_version = "2024-01"
-
-[app_proxy]
-url = "https://dragon-nd-meditation-mattress.trycloudflare.com/proxy"
-subpath = "proxy"
-prefix = "apps"
-
-[pos]
-embedded = false
