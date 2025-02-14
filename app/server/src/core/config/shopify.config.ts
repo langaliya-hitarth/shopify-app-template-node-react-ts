@@ -5,8 +5,9 @@ import { shopifyApp } from '@shopify/shopify-app-express';
 import { restResources } from '@shopify/shopify-api/rest/admin/2024-10';
 import { prismaSessionStorage } from './prisma.config.js';
 import type { ShopifyAppConfig } from '../types/shopify.types.js';
+import { getApiVersionKey } from '../utils/shopify.utils.js';
 
-// This is an example configuration that would do a one-time charge for $5 (only USD is currently supported)
+// Billing config
 const billingConfig = (include = false): BillingConfig | undefined => {
   return include
     ? {
@@ -21,7 +22,9 @@ const billingConfig = (include = false): BillingConfig | undefined => {
 
 const shopifyAppInstance: ShopifyApp = shopifyApp({
   api: {
-    apiVersion: LATEST_API_VERSION,
+    apiVersion: process.env.SHOPIFY_API_VERSION
+      ? getApiVersionKey(process.env.SHOPIFY_API_VERSION)
+      : LATEST_API_VERSION,
     restResources,
     future: {
       customerAddressDefaultFix: true,

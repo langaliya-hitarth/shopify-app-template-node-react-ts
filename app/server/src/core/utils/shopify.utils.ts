@@ -1,8 +1,9 @@
-import { DeliveryMethod } from '@shopify/shopify-api';
+import { DeliveryMethod, ApiVersion, LATEST_API_VERSION } from '@shopify/shopify-api';
 import type { WebhookHandler } from '@shopify/shopify-api';
 import type { WebhookHandlersParam } from '@shopify/shopify-app-express';
 import type { WebhookCallbackHandler, WebhookDefinitions } from '../types/routes.types.js';
 import logger from '../logger/logger.js';
+import { isInvalid } from './validation.utils.js';
 
 const GID_TYPE_REGEXP = /^gid:\/\/[\w-]+\/([\w-]+)\//;
 const GID_REGEXP = /\/(\w[\w-]*)(?:\?(.*))*$/;
@@ -22,10 +23,10 @@ export const parseGidType = (gid: string) => {
 };
 
 /**
- * Parses the ID from a Shopify Global ID (gid).
- * @param gid - The Shopify gid string.
- * @returns The extracted ID from the gid.
- * @throws If the gid is invalid.
+ * Parses the ID from a Shopify Global ID (GID).
+ * @param gid - The Shopify GID string.
+ * @returns The extracted ID from the GID.
+ * @throws If the GID is invalid.
  */
 export const parseGid = (gid: string) => {
   // Prepends forward slash to help identify invalid IDs
@@ -38,10 +39,10 @@ export const parseGid = (gid: string) => {
 };
 
 /**
- * Parses the ID and query parameters from a Shopify Global ID (gid).
- * @param gid - The Shopify gid string.
+ * Parses the ID and query parameters from a Shopify Global ID (GID).
+ * @param gid - The Shopify GID string.
  * @returns An object containing the extracted ID and query parameters.
- * @throws If the gid is invalid.
+ * @throws If the GID is invalid.
  */
 export const parseGidWithParams = (gid: string) => {
   const id = `/${gid}`;
@@ -58,9 +59,9 @@ export const parseGidWithParams = (gid: string) => {
 };
 
 /**
- * Factory function to create a Shopify Global ID (gid) composer.
- * @param namespace - The namespace to use in the gid.
- * @returns A function that creates gids based on the provided namespace.
+ * Factory function to create a Shopify Global ID (GID) composer.
+ * @param namespace - The namespace to use in the GID.
+ * @returns A function that creates GIDs based on the provided namespace.
  */
 export const composeGidFactory = (namespace: string) => {
   return (key: string, id: string, params = {}) => {
@@ -75,14 +76,14 @@ export const composeGidFactory = (namespace: string) => {
 };
 
 /**
- * Preconfigured Shopify gid composer using the 'shopify' namespace.
+ * Pre-configured Shopify gid composer using the 'shopify' namespace.
  */
 export const composeGid = composeGidFactory('shopify');
 
 /**
- * Factory function to validate Shopify Global IDs (gids).
+ * Factory function to validate Shopify Global IDs (GIDs).
  * @param namespace - The namespace to validate against.
- * @returns A function that validates gids based on the provided namespace.
+ * @returns A function that validates GIDs based on the provided namespace.
  */
 export const isGidFactory = (namespace: string) => {
   return (gid: string, key: string) => {
@@ -103,17 +104,20 @@ export const isGidFactory = (namespace: string) => {
 };
 
 /**
- * Preconfigured Shopify gid validator using the 'shopify' namespace.
+ * Pre-configured Shopify gid validator using the 'shopify' namespace.
  */
 export const isGid = isGidFactory('shopify');
 
 /**
+ *
  * Extracts nodes from a collection of edges.
  * @param edges - The array of edges containing nodes.
  * @param level - The depth level for recursive extraction of nodes from edges.
  * @returns An array of extracted nodes.
  */
+//@ts-expect-error - This is a workaround to avoid type errors
 export const nodesFromEdges = (edges, level = 0) => {
+  //@ts-expect-error - This is a workaround to avoid type errors
   return edges.flatMap(({ node }) => {
     const nodeKeys = Object.keys(node);
     if (level >= 1) {
@@ -133,7 +137,9 @@ export const nodesFromEdges = (edges, level = 0) => {
  * @param key - The key to extract values for.
  * @returns An array of extracted values for the specified key.
  */
+//@ts-expect-error - This is a workaround to avoid type errors
 export const keyFromEdges = (edges, key) => {
+  //@ts-expect-error - This is a workaround to avoid type errors
   return edges.map(({ node }) => node[key]);
 };
 
@@ -174,6 +180,18 @@ export const wrapWebhookHandlers = async (
   }
 
   return wrappedHandlers;
+};
+
+/**
+ * Retrieves the key of the ApiVersion enum that matches the given value.
+ * @param value - The value to search for in the ApiVersion enum.
+ * @returns The key of the ApiVersion enum that matches the given value, or undefined if no match is found.
+ */
+export const getApiVersionKey = (value: string): ApiVersion => {
+  if (isInvalid(value)) return LATEST_API_VERSION;
+  const entries = Object.entries(ApiVersion);
+  const found = entries.find(([, val]) => val === value);
+  return found ? ApiVersion[found[0] as keyof typeof ApiVersion] : LATEST_API_VERSION;
 };
 
 const shopifyUtils = {

@@ -7,14 +7,6 @@ export interface LogLevels {
   [key: string]: number;
 }
 
-export interface LogEmojis {
-  fatal: string;
-  error: string;
-  warn: string;
-  info: string;
-  debug: string;
-}
-
 export interface WinstonConfig {
   level: {
     cli: string;
@@ -22,5 +14,4 @@ export interface WinstonConfig {
     rollbar: string;
   };
   levels: LogLevels;
-  emojis: LogEmojis;
 }

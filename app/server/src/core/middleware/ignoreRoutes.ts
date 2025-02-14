@@ -8,10 +8,8 @@ const ignoreRoutes = (middleware: (req: Request, res: Response, next: NextFuncti
     const shouldIgnore = ignoredRoutes.some(route => req.baseUrl.startsWith(route));
     if (!shouldIgnore) {
       // Apply the middleware for other routes
-      console.log('Not Ignored', req.baseUrl);
       return middleware(req, res, next);
     }
-    console.log('Ignored', req.baseUrl);
     // Skip the middleware for ignored routes
     next();
   };

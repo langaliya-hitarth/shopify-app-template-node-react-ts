@@ -13,13 +13,6 @@ const winstonConfig: WinstonConfig = {
     info: 4,
     debug: 5,
   },
-  emojis: {
-    fatal: ':boom:',
-    error: ':x:',
-    warn: ':warning:',
-    info: ':thought_balloon:',
-    debug: ':beetle:',
-  },
 };
 
 export default winstonConfig;

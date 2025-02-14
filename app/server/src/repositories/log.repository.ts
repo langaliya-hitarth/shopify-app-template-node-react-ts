@@ -7,8 +7,19 @@ export const createLog = async <T extends Prisma.LogCreateInput>(data: T): Promi
   });
 };
 
+export const deleteOldLogs = async (): Promise<void> => {
+  await prisma.log.deleteMany({
+    where: {
+      timestamp: {
+        lt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30), // 30 days ago
+      },
+    },
+  });
+};
+
 const logRepository = {
   createLog,
+  deleteOldLogs,
 };
 
 export default logRepository;

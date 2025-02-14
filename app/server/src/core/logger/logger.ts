@@ -1,7 +1,7 @@
-import { createLogger, format, transports } from 'winston';
+import { createLogger, format } from 'winston';
 import PrismaTransport from './transports/prisma.transport.js';
 import winstonConfig from '../config/winston.config.js';
-import { isInvalid } from '../utils/validation.utils.js';
+import ConsoleTransport from './transports/console.transport.js';
 
 const logger = createLogger({
   level: winstonConfig.level.cli,
@@ -13,17 +13,12 @@ const logger = createLogger({
     format.metadata({ fillExcept: ['message', 'level', 'timestamp'] }),
   ),
   transports: [
-    new transports.Console({
-      format: format.combine(
-        format.colorize({ all: true }),
-        format.printf(info => {
-          return `[${info.timestamp} / ${info.level}] ${info.message} ${!isInvalid(info.metadata) ? `\n${JSON.stringify(info.metadata)}` : ''}`;
-        }),
-      ),
+    new ConsoleTransport({
+      level: winstonConfig.level.cli,
     }),
 
     new PrismaTransport({
-      level: winstonConfig.level.cli,
+      level: winstonConfig.level.prisma,
       format: format.combine(format.json()),
     }),
   ],

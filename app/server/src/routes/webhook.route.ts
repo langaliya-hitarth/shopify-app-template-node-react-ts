@@ -31,7 +31,7 @@ const webhookDefinitions: WebhookDefinitions = {
 const webhooksRouter = express.Router();
 
 // Add logging middleware
-webhooksRouter.use((req, res, next) => {
+webhooksRouter.use((req, _, next) => {
   logger.debug('Webhook request received:', {
     path: req.path,
     method: req.method,
