@@ -17,9 +17,11 @@ configDotenv({
   path: '../../../.env',
 });
 
-// If you are adding routes outside of the /api path, remember to
-// also add a proxy rule for them in web/frontend/vite.config.js
-
+/**
+ * If you are adding routes outside of the /api path
+ * Remember to add a proxy rule for them in web/frontend/vite.config.js
+ * Add the public path to shopify.config.js and to ignore routes middleware
+ */
 const app = express();
 
 // Set up Shopify authentication and webhook handling
