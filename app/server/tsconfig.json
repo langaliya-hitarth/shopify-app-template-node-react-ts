@@ -1,25 +1,6 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    /* Base Options */
-    "target": "ESNext",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "verbatimModuleSyntax": true,
-    "resolveJsonModule": true,
-    "moduleDetection": "force",
-
-    /* Strictness */
-    "strict": true,
-    "noUncheckedIndexedAccess": true,
-    "forceConsistentCasingInFileNames": true,
-    "strictNullChecks": true,
-    "strictBindCallApply": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
-    "allowSyntheticDefaultImports": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-
     /* Transpiling Options */
     "outDir": "../../dist/server",
     "rootDir": "./src",
@@ -28,10 +9,17 @@
     "declaration": true,
     "sourceMap": true,
     "lib": ["ES2022"],
-    "removeComments": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "isolatedModules": true
+    "paths": {
+      "@commands/*": ["./src/commands/*"],
+      "@repositories/*": ["./src/repositories/*"],
+      "@utils/*": ["./src/core/utils/*"],
+      "@config/*": ["./src/core/config/*"],
+      "@types/*": ["./src/core/types/*"],
+      "@routes/*": ["./src/routes/*"],
+      "@controllers/*": ["./src/controllers/*"],
+      "@services/*": ["./src/services/*"],
+      "@middleware/*": ["./src/core/middleware/*"]
+    }
   },
   "include": ["src/**/*.ts"]
 }

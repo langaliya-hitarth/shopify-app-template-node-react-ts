@@ -1,28 +1,9 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    /* Base Options */
-    "target": "ESNext",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "verbatimModuleSyntax": true,
-    "resolveJsonModule": true,
-    "moduleDetection": "force",
-
-    /* Strictness */
-    "strict": true,
-    "noUncheckedIndexedAccess": true,
-    "forceConsistentCasingInFileNames": true,
-    "strictNullChecks": true,
-    "strictBindCallApply": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": false,
-    "allowSyntheticDefaultImports": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-
     /* Transpiling Options */
     "jsx": "react",
-    "outDir": "../../dist/server",
+    "outDir": "../../dist/client",
     "rootDir": "./src",
     "module": "ESNext",
     "moduleResolution": "bundler",
@@ -30,10 +11,7 @@
     "sourceMap": true,
     "lib": ["dom", "dom.iterable", "esnext"],
     "removeComments": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
     "allowJs": true,
-    "isolatedModules": true,
     "incremental": true,
     "types": ["vite/client"]
   },

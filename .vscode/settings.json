@@ -1,0 +1,13 @@
+{
+  "files.exclude": {
+    "**/dist": true,
+    "**/build": true,
+    "**/generated": true
+  },
+  "search.exclude": {
+    "**/dist": true,
+    "**/build": true,
+    "**/generated": true
+  },
+  "typescript.preferences.importModuleSpecifier": "shortest"
+}

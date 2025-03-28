@@ -23,13 +23,9 @@ logs
 # ngrok tunnel file
 config/tunnel.pid
 
-# vite build output
-dist/
-build/
-
-# extensions build output
-extensions/*/dist
-extensions/*/build
+# build output
+**/dist/
+**/build/
 **/generated/
 
 # Node library SQLite database
@@ -38,6 +34,6 @@ web/database.sqlite
 # Ignore shopify files created during app dev
 .shopify/*
 .shopify.lock
-
-# Ignore IDE files
-.vscode
+shopify.*.toml
+!shopify.app.toml
+!shopify.web.toml
