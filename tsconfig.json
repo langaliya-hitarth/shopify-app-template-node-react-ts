@@ -5,7 +5,6 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "verbatimModuleSyntax": true,
-    "resolveJsonModule": true,
     "moduleDetection": "force",
 
     /* Strictness */
@@ -26,18 +25,6 @@
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "isolatedModules": true,
-    "paths": {
-      "@commands/*": ["./src/commands/*"],
-      "@repositories/*": ["./src/repositories/*"],
-      "@utils/*": ["./src/core/utils/*"],
-      "@config/*": ["./src/core/config/*"],
-      "@types/*": ["./src/core/types/*"],
-      "@routes/*": ["./src/routes/*"],
-      "@controllers/*": ["./src/controllers/*"],
-      "@services/*": ["./src/services/*"],
-      "@middleware/*": ["./src/core/middleware/*"]
-    }
-  },
-  "include": ["src/**/*.ts"]
+    "isolatedModules": true
+  }
 }

@@ -1,10 +1,10 @@
 import express from 'express';
-import { shopify } from '../core/config/shopify.config.js';
-import PrivacyWebhookController from '../controllers/webhook/privacy.webhook.controller.js';
-import ProductWebhookController from '../controllers/webhook/product.webhook.controller.js';
-import shopifyUtils from '../core/utils/shopify.utils.js';
-import type { WebhookDefinitions } from '../core/types/routes.types.js';
-import logger from '../core/logger/logger.js';
+import { shopify } from '@config/shopify.config.js';
+import PrivacyWebhookController from '@controllers/webhook/privacy.webhook.controller.js';
+import ProductWebhookController from '@controllers/webhook/product.webhook.controller.js';
+import shopifyUtils from '@utils/shopify.utils.js';
+import type { WebhookDefinitions } from '@generated/routes.types.js';
+import logger from '@utils/logger/logger.utils.js';
 
 const webhookDefinitions: WebhookDefinitions = {
   /* Privacy Webhooks */

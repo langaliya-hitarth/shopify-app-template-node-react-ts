@@ -3,9 +3,9 @@ import type { BillingConfig } from '@shopify/shopify-api';
 import type { ShopifyApp } from '@shopify/shopify-app-express';
 import { shopifyApp } from '@shopify/shopify-app-express';
 import { restResources } from '@shopify/shopify-api/rest/admin/2024-10';
-import { prismaSessionStorage } from './prisma.config.js';
-import type { ShopifyAppConfig } from '../types/shopify.types.js';
-import { getApiVersionKey } from '../utils/shopify.utils.js';
+import { prismaSessionStorage } from '@config/prisma.config.js';
+import type { ShopifyAppConfig } from '@generated/shopify.types.js';
+import { getApiVersionKey } from '@utils/shopify.utils.js';
 
 // Billing config
 const billingConfig = (include = false): BillingConfig | undefined => {

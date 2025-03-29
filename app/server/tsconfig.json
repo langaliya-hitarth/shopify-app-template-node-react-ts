@@ -2,24 +2,31 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     /* Transpiling Options */
+    "preserveSymlinks": true,
     "outDir": "../../dist/server",
     "rootDir": "./src",
+    "baseUrl": "./src",
     "module": "NodeNext",
     "moduleResolution": "nodenext",
+    "resolveJsonModule": true,
     "declaration": true,
     "sourceMap": true,
     "lib": ["ES2022"],
     "paths": {
-      "@commands/*": ["./src/commands/*"],
+      "@commands/*": ["./src/core/commands/*"],
       "@repositories/*": ["./src/repositories/*"],
       "@utils/*": ["./src/core/utils/*"],
       "@config/*": ["./src/core/config/*"],
-      "@types/*": ["./src/core/types/*"],
+      "@generated/*": ["./src/core/types/*"],
+      "@graphql/*": ["./src/graphql/*"],
       "@routes/*": ["./src/routes/*"],
       "@controllers/*": ["./src/controllers/*"],
       "@services/*": ["./src/services/*"],
       "@middleware/*": ["./src/core/middleware/*"]
     }
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts"],
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  }
 }

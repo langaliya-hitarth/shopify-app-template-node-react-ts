@@ -2,16 +2,16 @@ import { join } from 'path';
 import { readFileSync } from 'fs';
 import express from 'express';
 import serveStatic from 'serve-static';
-import { shopify } from './core/config/shopify.config.js';
-import webhooksRouter from './routes/webhook.route.js';
-import productRouter from './routes/product.route.js';
-import logger from './core/logger/logger.js';
-import { validateShopifyWebhookHmac } from './core/middleware/validateShopifyHmac.js';
-import ignoreRoutes from './core/middleware/ignoreRoutes.js';
-import rollbarConfig from './core/config/rollbar.config.js';
+import { shopify } from '@config/shopify.config.js';
+import webhooksRouter from '@routes/webhook.route.js';
+import productRouter from '@routes/product.route.js';
+import logger from '@utils/logger/logger.utils.js';
+import { validateShopifyWebhookHmac } from '@middleware/validateShopifyHmac.middleware.js';
+import ignoreRoutes from '@middleware/ignoreRoutes.middleware.js';
+import rollbarConfig from '@config/rollbar.config.js';
 import { configDotenv } from 'dotenv';
-import appConfig from './core/config/app.config.js';
-import scheduler from './core/config/cron.config.js';
+import appConfig from '@config/app.config.js';
+import scheduler from '@config/cron.config.js';
 
 configDotenv({
   path: '../../../.env',
@@ -19,8 +19,8 @@ configDotenv({
 
 /**
  * If you are adding routes outside of the /api path
- * Remember to add a proxy rule for them in web/frontend/vite.config.js
- * Add the public path to shopify.config.js and to ignore routes middleware
+ * Remember to add a proxy rule for them in /web/frontend/vite.config.js
+ * Add the public path to /core/config/shopify.config.js and to /core/middleware/ignoreRoutes.js middleware
  */
 const app = express();
 
@@ -74,7 +74,9 @@ app.listen(appConfig.PORT, () => {
 });
 
 // App rollbar error handler
-app.use(rollbarConfig.errorHandler());
+if (rollbarConfig) {
+  app.use(rollbarConfig.errorHandler());
+}
 
 // App uncaught exception handler
 process.on('uncaughtException', error => {

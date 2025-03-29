@@ -1,9 +1,9 @@
 import { DeliveryMethod, ApiVersion, LATEST_API_VERSION } from '@shopify/shopify-api';
 import type { WebhookHandler } from '@shopify/shopify-api';
 import type { WebhookHandlersParam } from '@shopify/shopify-app-express';
-import type { WebhookCallbackHandler, WebhookDefinitions } from '../types/routes.types.js';
-import logger from '../logger/logger.js';
-import { isInvalid } from './validation.utils.js';
+import type { WebhookCallbackHandler, WebhookDefinitions } from '@generated/routes.types.js';
+import logger from '@utils/logger/logger.utils.js';
+import { isInvalid } from '@utils/validation.utils.js';
 
 const GID_TYPE_REGEXP = /^gid:\/\/[\w-]+\/([\w-]+)\//;
 const GID_REGEXP = /\/(\w[\w-]*)(?:\?(.*))*$/;

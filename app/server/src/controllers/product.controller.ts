@@ -1,7 +1,7 @@
 import { Session } from '@shopify/shopify-api';
 import type { Request, Response } from 'express';
-import productService from '../services/product.service.js';
-import logger from '../core/logger/logger.js';
+import productService from '@services/product.service.js';
+import logger from '@utils/logger/logger.utils.js';
 
 const ProductController = {
   async getProductCount(_: Request, res: Response): Promise<void> {
@@ -20,7 +20,7 @@ const ProductController = {
   async createProducts(req: Request, res: Response): Promise<void> {
     try {
       const session: Session = res.locals.shopify.session;
-      const count = req.body.count || 1;
+      const count = req.body.count || 50;
       await productService.createProducts(session, count);
       res.status(200).send({ success: true });
     } catch (err) {

@@ -1,4 +1,4 @@
-import type { WinstonConfig } from '../types/logger.types.js';
+import type { WinstonConfig } from '@generated/logger.types.js';
 
 const winstonConfig: WinstonConfig = {
   level: {

@@ -1,5 +1,5 @@
 import type { Session } from '@prisma/client';
-import { prisma } from '../core/config/prisma.config.js';
+import { prisma } from '@config/prisma.config.js';
 
 export const findSessionByShop = async (shop: string): Promise<Session> => {
   return await prisma.session.findFirstOrThrow({

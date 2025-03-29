@@ -4,9 +4,9 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "tsc",
-    "dev": "nodemon",
-    "graphql-codegen": "graphql-codegen"
+    "graphql-codegen": "graphql-codegen",
+    "build": "npm run graphql-codegen && tsc",
+    "dev": "nodemon"
   },
   "type": "module",
   "engines": {
@@ -16,6 +16,7 @@
     "@prisma/client": "5.22.0",
     "@shopify/shopify-app-express": "^5.0.9",
     "@shopify/shopify-app-session-storage-prisma": "^5.2.0",
+    "bull": "^4.16.5",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "node-cron": "^3.0.3",
@@ -26,15 +27,17 @@
   },
   "devDependencies": {
     "@shopify/api-codegen-preset": "^1.1.3",
+    "@types/bull": "^4.10.4",
     "@types/compression": "^1.7.5",
-    "@types/node-cron": "^3.0.11",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/node": "^22.10.2",
+    "@types/node-cron": "^3.0.11",
     "@types/serve-static": "^1.15.7",
     "globals": "^15.14.0",
     "nodemon": "^2.0.15",
     "prisma": "^5.22.0",
+    "tsconfig-paths": "^4.2.0",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2"
   }

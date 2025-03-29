@@ -7,8 +7,8 @@
   "scripts": {
     "shopify": "shopify",
     "info": "shopify app info",
-    "build": "npm run build --workspace=app",
     "generate": "shopify app generate",
+    "build": "npm run build --ws",
     "dev": "shopify app dev",
     "serve": "node dist/server/index.js",
     "deploy": "shopify app deploy",

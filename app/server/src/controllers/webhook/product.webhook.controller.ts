@@ -1,5 +1,5 @@
-import logger from '../../core/logger/logger.js';
-import type { WebhookRequestParams } from '../../core/types/routes.types.js';
+import type { WebhookRequestParams } from '@generated/routes.types.js';
+import logger from '@utils/logger/logger.utils.js';
 
 const productsCreate = async ({ body }: WebhookRequestParams) => {
   if (!body) throw new Error('Missing Payload');

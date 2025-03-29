@@ -1,17 +1,17 @@
 import type { Prisma } from '@prisma/client';
-import { prisma } from '../core/config/prisma.config.js';
+import { prisma } from '@config/prisma.config.js';
 
-export const createLog = async <T extends Prisma.LogCreateInput>(data: T): Promise<void> => {
+export const createLog = async (data: Prisma.LogCreateInput): Promise<void> => {
   await prisma.log.create({
     data,
   });
 };
 
-export const deleteOldLogs = async (): Promise<void> => {
+export const deleteOldLogs = async (days: number = 30): Promise<void> => {
   await prisma.log.deleteMany({
     where: {
       timestamp: {
-        lt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 30), // 30 days ago
+        lt: new Date(Date.now() - 1000 * 60 * 60 * 24 * days),
       },
     },
   });

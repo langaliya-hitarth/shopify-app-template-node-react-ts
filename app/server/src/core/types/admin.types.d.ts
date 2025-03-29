@@ -771,6 +771,7 @@ export type AppDiscountType = {
   /**
    * The [discount class](https://help.shopify.com/manual/discounts/combining-discounts/discount-combinations)
    * that's used to control how discounts can be combined.
+   * @deprecated Use `discountClasses` instead.
    */
   discountClass: DiscountClass;
   /**
@@ -784,6 +785,7 @@ export type AppDiscountType = {
    * The type of line item on an order that the
    * [discount type](https://help.shopify.com/manual/discounts/discount-types) applies to.
    * Valid values: `SHIPPING_LINE` and `LINE_ITEM`.
+   * @deprecated Use `discountClasses` instead.
    */
   targetType: DiscountApplicationTargetType;
   /**
@@ -2099,6 +2101,8 @@ export type AvailableChannelDefinitionsByChannel = {
 export enum BadgeType {
   /** This badge has type `attention`. */
   Attention = 'ATTENTION',
+  /** This badge has type `critical`. */
+  Critical = 'CRITICAL',
   /** This badge has type `default`. */
   Default = 'DEFAULT',
   /** This badge has type `info`. */
@@ -6657,7 +6661,10 @@ export enum CollectionRuleColumn {
    * With `is_not_set` relation, the rule matches matches products with at least one variant with `compare_at_price` not set.
    */
   IsPriceReduced = 'IS_PRICE_REDUCED',
-  /** The [`product_category_id`](https://shopify.dev/api/admin-graphql/latest/objects/Product#field-category) attribute. */
+  /**
+   * This rule type is designed to dynamically include products in a smart collection based on their category id.
+   * When a specific product category is set as a condition, this rule will match products that are directly assigned to the specified category.
+   */
   ProductCategoryId = 'PRODUCT_CATEGORY_ID',
   /** This category includes metafield definitions that have the `useAsCollectionCondition` flag set to true. */
   ProductMetafieldDefinition = 'PRODUCT_METAFIELD_DEFINITION',
@@ -9544,11 +9551,15 @@ export type Customer = CommentEventSubject & HasEvents & HasMetafieldDefinitions
    * last_name are not available, then this falls back to the customer's email address, and if that is not available, the customer's phone number.
    */
   displayName: Scalars['String']['output'];
-  /** The customer's email address. */
+  /**
+   * The customer's email address.
+   * @deprecated Use `defaultEmailAddress.emailAddress` instead.
+   */
   email?: Maybe<Scalars['String']['output']>;
   /**
    * The current email marketing state for the customer.
    * If the customer doesn't have an email address, then this property is `null`.
+   * @deprecated Use `defaultEmailAddress.marketingState`, `defaultEmailAddress.marketingOptInLevel`, `defaultEmailAddress.marketingUpdatedAt`, and `defaultEmailAddress.sourceLocation` instead.
    */
   emailMarketingConsent?: Maybe<CustomerEmailMarketingConsentState>;
   /** A list of events associated with the customer. */
@@ -9608,7 +9619,10 @@ export type Customer = CommentEventSubject & HasEvents & HasMetafieldDefinitions
   orders: OrderConnection;
   /** A list of the customer's payment methods. */
   paymentMethods: CustomerPaymentMethodConnection;
-  /** The customer's phone number. */
+  /**
+   * The customer's phone number.
+   * @deprecated Use `defaultPhoneNumber.phoneNumber` instead.
+   */
   phone?: Maybe<Scalars['String']['output']>;
   /** Possible subscriber states of a customer defined by their subscription contracts. */
   productSubscriberStatus: CustomerProductSubscriberStatus;
@@ -9616,6 +9630,7 @@ export type Customer = CommentEventSubject & HasEvents & HasMetafieldDefinitions
    * The current SMS marketing state for the customer's phone number.
    *
    * If the customer does not have a phone number, then this property is `null`.
+   * @deprecated Use `defaultPhoneNumber.marketingState`, `defaultPhoneNumber.marketingOptInLevel`, `defaultPhoneNumber.marketingUpdatedAt`, `defaultPhoneNumber.marketingCollectedFrom`, and `defaultPhoneNumber.sourceLocation` instead.
    */
   smsMarketingConsent?: Maybe<CustomerSmsMarketingConsentState>;
   /**
@@ -9639,7 +9654,10 @@ export type Customer = CommentEventSubject & HasEvents & HasMetafieldDefinitions
   taxExempt: Scalars['Boolean']['output'];
   /** The list of tax exemptions applied to the customer. */
   taxExemptions: Array<TaxExemption>;
-  /** The URL to unsubscribe the customer from the mailing list. */
+  /**
+   * The URL to unsubscribe the customer from the mailing list.
+   * @deprecated Use `defaultEmailAddress.marketingUnsubscribeUrl` instead.
+   */
   unsubscribeUrl: Scalars['URL']['output'];
   /** The date and time when the customer was last updated. */
   updatedAt: Scalars['DateTime']['output'];
@@ -9649,6 +9667,7 @@ export type Customer = CommentEventSubject & HasEvents & HasMetafieldDefinitions
    * Returns `true` when the email is formatted correctly and
    * belongs to an existing domain. This doesn't guarantee that
    * the email address actually exists.
+   * @deprecated Use `defaultEmailAddress.validFormat` instead.
    */
   validEmailAddress: Scalars['Boolean']['output'];
   /** Whether the customer has verified their email address. Defaults to `true` if the customer is created through the Shopify admin or API. */
@@ -10836,7 +10855,7 @@ export type CustomerPaymentMethodRemoteInput = {
   authorizeNetCustomerPaymentProfile?: InputMaybe<RemoteAuthorizeNetCustomerPaymentProfileInput>;
   /** The input fields for a remote Braintree customer profile. */
   braintreePaymentMethod?: InputMaybe<RemoteBraintreePaymentMethodInput>;
-  /** Input containing the fields for a remote stripe payment method. */
+  /** Input containing the fields for a remote stripe credit card. */
   stripePaymentMethod?: InputMaybe<RemoteStripePaymentMethodInput>;
 };
 
@@ -12382,6 +12401,11 @@ export type DeliveryLocalPickupSettings = {
 
 /** Possible pickup time values that a location enabled for local pickup can have. */
 export enum DeliveryLocalPickupTime {
+  /**
+   * Custom pickup time. Unrecognized pickup time enum value.
+   * @deprecated Custom pickup time is no longer supported.
+   */
+  Custom = 'CUSTOM',
   /** Usually ready in 5+ days. */
   FiveOrMoreDays = 'FIVE_OR_MORE_DAYS',
   /** Usually ready in 4 hours. */
@@ -12510,6 +12534,8 @@ export type DeliveryLocationLocalPickupSettingsError = DisplayableError & {
 export enum DeliveryLocationLocalPickupSettingsErrorCode {
   /** Provided locationId is not for an active location belonging to this store. */
   ActiveLocationNotFound = 'ACTIVE_LOCATION_NOT_FOUND',
+  /** Custom pickup time is not allowed for local pickup settings. */
+  CustomPickupTimeNotAllowed = 'CUSTOM_PICKUP_TIME_NOT_ALLOWED',
   /** An error occurred while changing the local pickup settings. */
   GenericError = 'GENERIC_ERROR'
 }
@@ -15454,10 +15480,10 @@ export type DiscountCustomerGetsValueInput = {
   percentage?: InputMaybe<Scalars['Float']['input']>;
 };
 
-/** A list of customer segments that contain the customers that the discount applies to. */
+/** A list of customer segments who are eligible for the discount. */
 export type DiscountCustomerSegments = {
   __typename?: 'DiscountCustomerSegments';
-  /** A list of customer segments that contain the customers who can use the discount. */
+  /** The list of customer segments who are eligible for the discount. */
   segments: Array<Segment>;
 };
 
@@ -15482,10 +15508,10 @@ export type DiscountCustomerSelectionInput = {
   customers?: InputMaybe<DiscountCustomersInput>;
 };
 
-/** A list of customers eligible for the discount. */
+/** A list of individual customers eligible for the discount. */
 export type DiscountCustomers = {
   __typename?: 'DiscountCustomers';
-  /** The list of customers eligible for the discount. */
+  /** The list of individual customers eligible for the discount. */
   customers: Array<Customer>;
 };
 
@@ -15510,7 +15536,7 @@ export type DiscountEffectInput = {
 
 /** Possible error codes that can be returned by `DiscountUserError`. */
 export enum DiscountErrorCode {
-  /** The active period overlaps with other automatic discounts. At any given time, only one automatic discount can be active. */
+  /** The active period overlaps with other automatic discounts. At any given time, only 25 automatic discounts can be active. */
   ActivePeriodOverlap = 'ACTIVE_PERIOD_OVERLAP',
   /** A discount cannot have both appliesOnOneTimePurchase and appliesOnSubscription set to false. */
   AppliesOnNothing = 'APPLIES_ON_NOTHING',
@@ -17014,7 +17040,10 @@ export type DraftOrderPlatformDiscount = {
   bxgyDiscount: Scalars['Boolean']['output'];
   /** If a code-based discount, the code used to add the discount. */
   code?: Maybe<Scalars['String']['output']>;
-  /** The discount class. */
+  /**
+   * The discount class.
+   * @deprecated Use `discountClasses` instead.
+   */
   discountClass: DiscountClass;
   /** The discount node for the platform discount. */
   discountNode?: Maybe<DiscountNode>;
@@ -17966,6 +17995,8 @@ export enum FilesErrorCode {
   NonReadyState = 'NON_READY_STATE',
   /** Exceeded the limit of media per product. */
   ProductMediaLimitExceeded = 'PRODUCT_MEDIA_LIMIT_EXCEEDED',
+  /** One or more associated products are suspended. */
+  ProductSuspended = 'PRODUCT_SUSPENDED',
   /** The target resource does not exist. */
   ReferenceTargetDoesNotExist = 'REFERENCE_TARGET_DOES_NOT_EXIST',
   /** Specify one argument: search, IDs, or deleteAll. */
@@ -20672,20 +20703,20 @@ export type FulfillmentOriginAddressInput = {
  *
  *   For more information, refer to
  *   [Receive fulfillment requests and cancellations](https://shopify.dev/apps/fulfillment/fulfillment-service-apps/manage-fulfillments#step-2-receive-fulfillment-requests-and-cancellations).
- * - Shopify sends GET requests to the `<callbackUrl>/fetch_tracking_numbers` endpoint to retrieve tracking numbers for orders,
+ * - Shopify sends GET requests to the `<callbackUrl>/fetch_tracking_numbers` endpoint to retrieve tracking numbers for orders
  *   if `trackingSupport` is set to `true`.
  *
  *   For more information, refer to
  *   [Enable tracking support](https://shopify.dev/apps/fulfillment/fulfillment-service-apps/manage-fulfillments#step-8-enable-tracking-support-optional).
  *
- *   Fulfillment services can also update tracking information with the
- *   [fulfillmentTrackingInfoUpdate](https://shopify.dev/api/admin-graphql/unstable/mutations/fulfillmentTrackingInfoUpdate) mutation,
+ *   Fulfillment services can also update tracking information using the
+ *   [fulfillmentTrackingInfoUpdate](https://shopify.dev/api/admin-graphql/latest/mutations/fulfillmentTrackingInfoUpdate) mutation,
  *   rather than waiting for Shopify to ask for tracking numbers.
- * - Shopify sends GET requests to the `<callbackUrl>/fetch_stock` endpoint to retrieve inventory levels,
- *   if `inventoryManagement` is set to `true`.
+ * - Shopify sends GET requests to the `<callbackUrl>/fetch_stock` endpoint to retrieve
+ *   on hand inventory levels for the fulfillment service location if `inventoryManagement` is set to `true`.
  *
  *   For more information, refer to
- *   [Sharing inventory levels with Shopify](https://shopify.dev/apps/fulfillment/fulfillment-service-apps/manage-fulfillments#step-9-share-inventory-levels-with-shopify-optional).
+ *   [Sharing inventory levels with Shopify](https://shopify.dev/apps/build/orders-fulfillment/fulfillment-service-apps/build-for-fulfillment-services#step-10-optional-share-inventory-levels-with-shopify).
  *
  * To make sure you have everything set up correctly, you can test the `callbackUrl`-prefixed endpoints
  * in your development store.
@@ -20714,9 +20745,7 @@ export type FulfillmentService = {
    * - Shopify queries the `<callbackUrl>/fetch_stock` endpoint to retrieve inventory levels,
    *     if `inventoryManagement` is set to `true`.
    * - Shopify uses the `<callbackUrl>/fulfillment_order_notification` endpoint to send
-   *     [fulfillment and cancellation requests](https://shopify.dev/apps/fulfillment/fulfillment-service-apps/manage-fulfillments#step-2-receive-fulfillment-requests-and-cancellations),
-   *     if the fulfillment service has opted in to the fulfillment order based workflow for managing fulfillments
-   *     (`fulfillmentOrdersOptIn` is set to `true`).
+   *     [fulfillment and cancellation requests](https://shopify.dev/apps/build/orders-fulfillment/fulfillment-service-apps/build-for-fulfillment-services#step-9-optional-enable-tracking-support).
    */
   callbackUrl?: Maybe<Scalars['URL']['output']>;
   /**
@@ -22319,7 +22348,7 @@ export type InventoryItem = LegacyInteroperability & Node & {
   createdAt: Scalars['DateTime']['output'];
   /** The number of inventory items that share the same SKU with this item. */
   duplicateSkuCount: Scalars['Int']['output'];
-  /** The harmonized system code of the item. */
+  /** The harmonized system code of the item. This must be a number between 6 and 13 digits. */
   harmonizedSystemCode?: Maybe<Scalars['String']['output']>;
   /** A globally-unique ID. */
   id: Scalars['ID']['output'];
@@ -22420,7 +22449,7 @@ export type InventoryItemInput = {
   countryCodeOfOrigin?: InputMaybe<CountryCode>;
   /** List of country-specific harmonized system codes. */
   countryHarmonizedSystemCodes?: InputMaybe<Array<CountryHarmonizedSystemCodeInput>>;
-  /** The harmonized system code of the inventory item. */
+  /** The harmonized system code of the inventory item. This must be a number between 6 and 13 digits. */
   harmonizedSystemCode?: InputMaybe<Scalars['String']['input']>;
   /** The measurements of an inventory item. */
   measurement?: InputMaybe<InventoryItemMeasurementInput>;
@@ -25750,6 +25779,8 @@ export enum MarketingActivityStatus {
 export enum MarketingActivityStatusBadgeType {
   /** This status badge has type attention. */
   Attention = 'ATTENTION',
+  /** This status badge has type critical. */
+  Critical = 'CRITICAL',
   /** This status badge has type default. */
   Default = 'DEFAULT',
   /** This status badge has type info. */
@@ -26837,7 +26868,11 @@ export type Metafield = HasCompareDigest & LegacyInteroperability & Node & {
   createdAt: Scalars['DateTime']['output'];
   /** The metafield definition that the metafield belongs to, if any. */
   definition?: Maybe<MetafieldDefinition>;
-  /** The description of the metafield. */
+  /**
+   * The description of the metafield.
+   * @deprecated This field will be removed in a future release. Use the `description` on the metafield definition instead.
+   *
+   */
   description?: Maybe<Scalars['String']['output']>;
   /** A globally-unique ID. */
   id: Scalars['ID']['output'];
@@ -26882,12 +26917,12 @@ export type MetafieldReferencesArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
 };
 
-/** The access settings for this metafield definition. */
+/** Access permissions for the definition's metafields. */
 export type MetafieldAccess = {
   __typename?: 'MetafieldAccess';
-  /** The default admin access setting used for the metafields under this definition. */
+  /** The access permitted on the Admin API. */
   admin?: Maybe<MetafieldAdminAccess>;
-  /** The customer account access setting used for the metafields under this definition. */
+  /** The access permitted on the Customer Account API. */
   customerAccount: MetafieldCustomerAccountAccess;
   /**
    * The explicit grants for this metafield definition, superseding the default admin access
@@ -26896,7 +26931,7 @@ export type MetafieldAccess = {
    *
    */
   grants: Array<MetafieldAccessGrant>;
-  /** The storefront access setting used for the metafields under this definition. */
+  /** The access permitted on the Storefront API. */
   storefront?: Maybe<MetafieldStorefrontAccess>;
 };
 
@@ -26913,13 +26948,13 @@ export type MetafieldAccessGrant = {
   grantee: Scalars['String']['output'];
 };
 
-/** The input fields for the access settings for the metafields under the definition. */
+/** The input fields that set access permissions for the definition's metafields. */
 export type MetafieldAccessInput = {
-  /** The admin access setting to use for the metafields under this definition. */
+  /** The access permitted on the Admin API. */
   admin?: InputMaybe<MetafieldAdminAccessInput>;
-  /** The Customer Account API access setting to use for the metafields under this definition. */
+  /** The access permitted on the Customer Account API. */
   customerAccount?: InputMaybe<MetafieldCustomerAccountAccessInput>;
-  /** The storefront access setting to use for the metafields under this definition. */
+  /** The access permitted on the Storefront API. */
   storefront?: InputMaybe<MetafieldStorefrontAccessInput>;
 };
 
@@ -26933,25 +26968,25 @@ export type MetafieldAccessUpdateInput = {
   storefront?: InputMaybe<MetafieldStorefrontAccessInput>;
 };
 
-/** Possible admin access settings for metafields. */
+/** Metafield access permissions for the Admin API. */
 export enum MetafieldAdminAccess {
-  /** Owner gets full access. The merchant has read-only access. No one else has access rights. */
+  /** The merchant has read-only access. No other apps have access. */
   MerchantRead = 'MERCHANT_READ',
-  /** Owner gets full access. The merchant has read and write access. No one else has access rights. */
+  /** The merchant has read and write access. No other apps have access. */
   MerchantReadWrite = 'MERCHANT_READ_WRITE',
-  /** Owner gets full access. No one else has access rights. */
+  /** The merchant and other apps have no access. */
   Private = 'PRIVATE',
-  /** Owner gets full access. All applications and the merchant have read-only access. */
+  /** The merchant and other apps have read-only access. */
   PublicRead = 'PUBLIC_READ',
-  /** Owner gets full access. All applications and the merchant have read and write access. */
+  /** The merchant and other apps have read and write access. */
   PublicReadWrite = 'PUBLIC_READ_WRITE'
 }
 
-/** The possible values for setting metafield Admin API access. */
+/** Metafield access permissions for the Admin API. */
 export enum MetafieldAdminAccessInput {
-  /** Owner gets full access. The merchant has read-only access. No one else has access rights. */
+  /** The merchant has read-only access. No other apps have access. */
   MerchantRead = 'MERCHANT_READ',
-  /** Owner gets full access. The merchant has read and write access. No one else has access rights. */
+  /** The merchant has read and write access. No other apps have access. */
   MerchantReadWrite = 'MERCHANT_READ_WRITE'
 }
 
@@ -27044,23 +27079,23 @@ export type MetafieldConnection = {
   pageInfo: PageInfo;
 };
 
-/** Defines how the metafields of a definition can be accessed in the Customer Account API. */
+/** Metafield access permissions for the Customer Account API. */
 export enum MetafieldCustomerAccountAccess {
-  /** The Customer Account API cannot access metafields. */
+  /** No access. */
   None = 'NONE',
-  /** The Customer Account API can read metafields. */
+  /** Read-only access. */
   Read = 'READ',
-  /** The Customer Account API can read and write metafields. */
+  /** Read and write access. */
   ReadWrite = 'READ_WRITE'
 }
 
-/** The possible values for setting metafield Customer Account API access. */
+/** Metafield access permissions for the Customer Account API. */
 export enum MetafieldCustomerAccountAccessInput {
-  /** The Customer Account API cannot access metafields. */
+  /** No access. */
   None = 'NONE',
-  /** The Customer Account API can read metafields. */
+  /** Read-only access. */
   Read = 'READ',
-  /** The Customer Account API can read and write metafields. */
+  /** Read and write access. */
   ReadWrite = 'READ_WRITE'
 }
 
@@ -27074,7 +27109,10 @@ export type MetafieldDefinition = Node & {
   access: MetafieldAccess;
   /** The capabilities of the metafield definition. */
   capabilities: MetafieldCapabilities;
-  /** The constraints that determine what subtypes of resources a metafield definition applies to. */
+  /**
+   * The [constraints](https://shopify.dev/apps/build/custom-data/metafields/conditional-metafield-definitions)
+   * that determine what subtypes of resources a metafield definition applies to.
+   */
   constraints?: Maybe<MetafieldDefinitionConstraints>;
   /** The description of the metafield definition. */
   description?: Maybe<Scalars['String']['output']>;
@@ -27216,7 +27254,10 @@ export type MetafieldDefinitionConstraintValueUpdateInput = {
   delete?: InputMaybe<Scalars['String']['input']>;
 };
 
-/** The constraints that determine what subtypes of resources a metafield definition applies to. */
+/**
+ * The [constraints](https://shopify.dev/apps/build/custom-data/metafields/conditional-metafield-definitions)
+ * that determine what subtypes of resources a metafield definition applies to.
+ */
 export type MetafieldDefinitionConstraints = {
   __typename?: 'MetafieldDefinitionConstraints';
   /** The category of resource subtypes that the definition applies to. */
@@ -27226,7 +27267,10 @@ export type MetafieldDefinitionConstraints = {
 };
 
 
-/** The constraints that determine what subtypes of resources a metafield definition applies to. */
+/**
+ * The [constraints](https://shopify.dev/apps/build/custom-data/metafields/conditional-metafield-definitions)
+ * that determine what subtypes of resources a metafield definition applies to.
+ */
 export type MetafieldDefinitionConstraintsValuesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -27236,8 +27280,8 @@ export type MetafieldDefinitionConstraintsValuesArgs = {
 };
 
 /**
- * The input fields required to create metafield definition constraints. Each constraint applies a metafield
- * definition to a subtype of a resource.
+ * The input fields required to create metafield definition [constraints](https://shopify.dev/apps/build/custom-data/metafields/conditional-metafield-definitions).
+ * Each constraint applies a metafield definition to a subtype of a resource.
  */
 export type MetafieldDefinitionConstraintsInput = {
   /** The category of resource subtypes that the definition applies to. */
@@ -27247,8 +27291,8 @@ export type MetafieldDefinitionConstraintsInput = {
 };
 
 /**
- * The input fields required to update metafield definition constraints. Each constraint applies a metafield
- * definition to a subtype of a resource.
+ * The input fields required to update metafield definition [constraints](https://shopify.dev/apps/build/custom-data/metafields/conditional-metafield-definitions).
+ * Each constraint applies a metafield definition to a subtype of a resource.
  */
 export type MetafieldDefinitionConstraintsUpdatesInput = {
   /**
@@ -27388,7 +27432,10 @@ export type MetafieldDefinitionInput = {
   access?: InputMaybe<MetafieldAccessInput>;
   /** The capabilities of the metafield definition. */
   capabilities?: InputMaybe<MetafieldCapabilityCreateInput>;
-  /** The constraints that determine what resources a metafield definition applies to. */
+  /**
+   * The [constraints](https://shopify.dev/apps/build/custom-data/metafields/conditional-metafield-definitions)
+   * that determine what resources a metafield definition applies to.
+   */
   constraints?: InputMaybe<MetafieldDefinitionConstraintsInput>;
   /** The description for the metafield definition. */
   description?: InputMaybe<Scalars['String']['input']>;
@@ -27562,7 +27609,10 @@ export type MetafieldDefinitionUpdateInput = {
   access?: InputMaybe<MetafieldAccessUpdateInput>;
   /** The capabilities of the metafield definition. */
   capabilities?: InputMaybe<MetafieldCapabilityUpdateInput>;
-  /** The constraints that determine what resources a metafield definition applies to. */
+  /**
+   * The [constraints](https://shopify.dev/apps/build/custom-data/metafields/conditional-metafield-definitions)
+   * that determine what resources a metafield definition applies to.
+   */
   constraintsUpdates?: InputMaybe<MetafieldDefinitionConstraintsUpdatesInput>;
   /** The description for the metafield definition. */
   description?: InputMaybe<Scalars['String']['input']>;
@@ -27899,22 +27949,19 @@ export type MetafieldRelationEdge = {
   node: MetafieldRelation;
 };
 
-/** Defines how the metafields of a definition can be accessed in Storefront API surface areas, including Liquid and the GraphQL Storefront API. */
+/** Metafield access permissions for the Storefront API. */
 export enum MetafieldStorefrontAccess {
-  /** Metafields are not accessible in any Storefront API surface area. */
+  /** No access. */
   None = 'NONE',
-  /** Metafields are accessible in the GraphQL Storefront API and online store Liquid templates. */
+  /** Read-only access. */
   PublicRead = 'PUBLIC_READ'
 }
 
-/**
- * The possible values for setting metafield storefront access.
- * Storefront accesss governs both Liquid and the GraphQL Storefront API.
- */
+/** Metafield access permissions for the Storefront API. */
 export enum MetafieldStorefrontAccessInput {
-  /** Metafields are not accessible in any Storefront API surface area. */
+  /** No access. */
   None = 'NONE',
-  /** Metafields are accessible in the GraphQL Storefront API and online store Liquid templates. */
+  /** Read-only access. */
   PublicRead = 'PUBLIC_READ'
 }
 
@@ -28092,57 +28139,48 @@ export type MetaobjectReferencedByArgs = {
   reverse?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-/** Provides metaobject definition's access configuration. */
+/** Access permissions for the definition's metaobjects. */
 export type MetaobjectAccess = {
   __typename?: 'MetaobjectAccess';
-  /** Access configuration for Admin API surface areas, including the GraphQL Admin API. */
+  /** The access permitted on the Admin API. */
   admin: MetaobjectAdminAccess;
-  /** Access configuration for Storefront surface areas, including the GraphQL Storefront API and Liquid. */
+  /** The access permitted on the Storefront API. */
   storefront: MetaobjectStorefrontAccess;
 };
 
-/** The input fields for configuring metaobject access controls. */
+/** The input fields that set access permissions for the definition's metaobjects. */
 export type MetaobjectAccessInput = {
-  /** Access configuration for Admin API surface areas, including the GraphQL Admin API. */
+  /** The access permitted on the Admin API. */
   admin?: InputMaybe<MetaobjectAdminAccessInput>;
-  /** Access configuration for Storefront API surface areas, including the GraphQL Storefront API and Liquid. */
+  /** The access permitted on the Storefront API. */
   storefront?: InputMaybe<MetaobjectStorefrontAccess>;
 };
 
-/** Defines how the metaobjects of a definition can be accessed in admin API surface areas. */
+/**
+ * Metaobject access permissions for the Admin API. When the metaobject is app-owned, the owning app always has
+ * full access.
+ */
 export enum MetaobjectAdminAccess {
-  /**
-   * Applications that act on behalf of merchants can read metaobjects.
-   * Only the owning application can write metaobjects.
-   */
+  /** The merchant has read-only access. No other apps have access. */
   MerchantRead = 'MERCHANT_READ',
-  /**
-   * The owning application, as well as applications that act on behalf of merchants can read and write metaobjects.
-   * No other applications can read or write metaobjects.
-   */
+  /** The merchant has read and write access. No other apps have access. */
   MerchantReadWrite = 'MERCHANT_READ_WRITE',
-  /** Only the application that owns a metaobject can read and write to it. */
+  /** The merchant and other apps have no access. */
   Private = 'PRIVATE',
-  /**
-   * All applications with the `metaobjects` access scope can read metaobjects.
-   * Only the owning application can write metaobjects.
-   */
+  /** The merchant and other apps have read-only access. */
   PublicRead = 'PUBLIC_READ',
-  /** All applications with the `metaobjects` access scope can read and write metaobjects. */
+  /** The merchant and other apps have read and write access. */
   PublicReadWrite = 'PUBLIC_READ_WRITE'
 }
 
-/** Defines how the metaobjects of a definition can be accessed in admin API surface areas. */
+/**
+ * Metaobject access permissions for the Admin API. When the metaobject is app-owned, the owning app always has
+ * full access.
+ */
 export enum MetaobjectAdminAccessInput {
-  /**
-   * Applications that act on behalf of merchants can read metaobjects.
-   * Only the owning application can write metaobjects.
-   */
+  /** The merchant has read-only access. No other apps have access. */
   MerchantRead = 'MERCHANT_READ',
-  /**
-   * The owning application, as well as applications that act on behalf of merchants can read and write metaobjects.
-   * No other applications can read or write metaobjects.
-   */
+  /** The merchant has read and write access. No other apps have access. */
   MerchantReadWrite = 'MERCHANT_READ_WRITE'
 }
 
@@ -28649,14 +28687,11 @@ export enum MetaobjectStatus {
   Draft = 'DRAFT'
 }
 
-/** Defines how the metaobjects of a definition can be accessed in Storefront API surface areas, including Liquid and the GraphQL Storefront API. */
+/** Metaobject access permissions for the Storefront API. */
 export enum MetaobjectStorefrontAccess {
-  /** Metaobjects are not accessible in any Storefront API surface area. */
+  /** No access. */
   None = 'NONE',
-  /**
-   * Metaobjects are accessible in the GraphQL Storefront API by any application with the `unauthenticated_read_metaobjects` access scope.
-   * Metaobjects are accessible in online store Liquid templates.
-   */
+  /** Read-only access. */
   PublicRead = 'PUBLIC_READ'
 }
 
@@ -28768,6 +28803,8 @@ export enum MetaobjectUserErrorCode {
   Present = 'PRESENT',
   /** The requested record couldn't be found. */
   RecordNotFound = 'RECORD_NOT_FOUND',
+  /** The action cannot be completed because associated metaobjects are referenced by another resource. */
+  ReferenceExistsError = 'REFERENCE_EXISTS_ERROR',
   /** The provided name is reserved for system use. */
   ReservedName = 'RESERVED_NAME',
   /** The input value is already taken. */
@@ -29220,7 +29257,7 @@ export type Mutation = {
   companyContactAssignRole?: Maybe<CompanyContactAssignRolePayload>;
   /** Assigns roles on a company contact. */
   companyContactAssignRoles?: Maybe<CompanyContactAssignRolesPayload>;
-  /** Creates a company contact. */
+  /** Creates a company contact and the associated customer. */
   companyContactCreate?: Maybe<CompanyContactCreatePayload>;
   /** Deletes a company contact. */
   companyContactDelete?: Maybe<CompanyContactDeletePayload>;
@@ -30109,7 +30146,7 @@ export type Mutation = {
   orderEditAddLineItemDiscount?: Maybe<OrderEditAddLineItemDiscountPayload>;
   /** Adds a shipping line to an existing order. For more information on how to use the GraphQL Admin API to edit an existing order, refer to [Edit existing orders](https://shopify.dev/apps/fulfillment/order-management-apps/order-editing). */
   orderEditAddShippingLine?: Maybe<OrderEditAddShippingLinePayload>;
-  /** Adds a line item from an existing product variant. */
+  /** Adds a line item from an existing product variant. As of API version 2025-04, the [orderEditAddVariant](https://shopify.dev/api/admin-graphql/latest/mutations/ordereditaddvariant) API will respect the contextual pricing of the variant. */
   orderEditAddVariant?: Maybe<OrderEditAddVariantPayload>;
   /**
    * Starts editing an order. Mutations are operating on `OrderEdit`.
@@ -34490,7 +34527,10 @@ export type Order = CommentEventSubject & HasEvents & HasLocalizationExtensions 
   estimatedTaxes: Scalars['Boolean']['output'];
   /** A list of events associated with the order. */
   events: EventConnection;
-  /** A list of ExchangeV2s for the order. */
+  /**
+   * A list of ExchangeV2s for the order.
+   * @deprecated Use `returns` instead.
+   */
   exchangeV2s: ExchangeV2Connection;
   /**
    * Whether there are line items that can be fulfilled.
@@ -39686,7 +39726,7 @@ export type ProductBundleComponentInput = {
   optionSelections: Array<ProductBundleComponentOptionSelectionInput>;
   /** The ID of the component product to add to the bundle product. */
   productId: Scalars['ID']['input'];
-  /** The quantity of the component product to add to the bundle product. */
+  /** The quantity of the component product to add to the bundle product. This field can't exceed 2000. */
   quantity?: InputMaybe<Scalars['Int']['input']>;
   /**
    * New option to be created on the bundle parent that enables the buyer to select different quantities for
@@ -39908,26 +39948,23 @@ export type ProductClaimOwnershipInput = {
   bundles?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
-/** The set of valid sort keys for the ProductCollection query. */
+/** The set of valid sort keys for products belonging to a collection. */
 export enum ProductCollectionSortKeys {
-  /** Sort by the `best-selling` value. */
+  /** Sort by best selling. */
   BestSelling = 'BEST_SELLING',
-  /** Sort by the `collection-default` value. */
+  /** Sort by collection default order. */
   CollectionDefault = 'COLLECTION_DEFAULT',
-  /** Sort by the `created` value. */
+  /** Sort by creation time. */
   Created = 'CREATED',
-  /** Sort by the `id` value. */
+  /** Sort by id. */
   Id = 'ID',
-  /** Sort by the `manual` value. */
+  /** Sort by manual order. */
   Manual = 'MANUAL',
-  /** Sort by the `price` value. */
+  /** Sort by price. */
   Price = 'PRICE',
-  /**
-   * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
-   * Don't use this sort key when no search query is specified.
-   */
+  /** Sort by relevance. */
   Relevance = 'RELEVANCE',
-  /** Sort by the `title` value. */
+  /** Sort by title. */
   Title = 'TITLE'
 }
 
@@ -42173,6 +42210,8 @@ export type ProductVariantsBulkReorderUserError = DisplayableError & {
 export enum ProductVariantsBulkReorderUserErrorCode {
   /** Product variant IDs must be unique. */
   DuplicatedVariantId = 'DUPLICATED_VARIANT_ID',
+  /** Something went wrong, please try again. */
+  GenericError = 'GENERIC_ERROR',
   /** Product variant position cannot be zero or negative number. */
   InvalidPosition = 'INVALID_POSITION',
   /** Product variant does not exist. */
@@ -54082,6 +54121,8 @@ export enum SubscriptionDraftErrorCode {
   Committed = 'COMMITTED',
   /** Contract draft must be a billing cycle contract draft for contract concatenation. */
   ConcatenationBillingCycleContractDraftRequired = 'CONCATENATION_BILLING_CYCLE_CONTRACT_DRAFT_REQUIRED',
+  /** Cannot concatenate a contract draft from subscriptionContractCreate mutation. */
+  ConcatenationUncommittedContractDraft = 'CONCATENATION_UNCOMMITTED_CONTRACT_DRAFT',
   /** Currency is not enabled. */
   CurrencyNotEnabled = 'CURRENCY_NOT_ENABLED',
   /** The customer doesn't exist. */
@@ -56907,11 +56948,11 @@ export enum WebhookSubscriptionTopic {
   FulfillmentOrdersScheduledFulfillmentOrderReady = 'FULFILLMENT_ORDERS_SCHEDULED_FULFILLMENT_ORDER_READY',
   /** The webhook topic for `fulfillment_orders/split` events. Occurs when a fulfillment order is split into multiple fulfillment orders. Requires at least one of the following scopes: read_merchant_managed_fulfillment_orders, read_assigned_fulfillment_orders, read_third_party_fulfillment_orders. */
   FulfillmentOrdersSplit = 'FULFILLMENT_ORDERS_SPLIT',
-  /** The webhook topic for `inventory_items/create` events. Occurs whenever an inventory item is created. Requires the `read_inventory` scope. */
+  /** The webhook topic for `inventory_items/create` events. Occurs whenever an inventory item is created. Requires at least one of the following scopes: read_inventory, read_products. */
   InventoryItemsCreate = 'INVENTORY_ITEMS_CREATE',
-  /** The webhook topic for `inventory_items/delete` events. Occurs whenever an inventory item is deleted. Requires the `read_inventory` scope. */
+  /** The webhook topic for `inventory_items/delete` events. Occurs whenever an inventory item is deleted. Requires at least one of the following scopes: read_inventory, read_products. */
   InventoryItemsDelete = 'INVENTORY_ITEMS_DELETE',
-  /** The webhook topic for `inventory_items/update` events. Occurs whenever an inventory item is updated. Requires the `read_inventory` scope. */
+  /** The webhook topic for `inventory_items/update` events. Occurs whenever an inventory item is updated. Requires at least one of the following scopes: read_inventory, read_products. */
   InventoryItemsUpdate = 'INVENTORY_ITEMS_UPDATE',
   /** The webhook topic for `inventory_levels/connect` events. Occurs whenever an inventory level is connected. Requires the `read_inventory` scope. */
   InventoryLevelsConnect = 'INVENTORY_LEVELS_CONNECT',
